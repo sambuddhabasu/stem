@@ -54,5 +54,6 @@ setup(
   keywords = 'tor onion controller',
   scripts = ['tor-prompt'],
   package_data = { 'stem.interpreter': ['settings.cfg']},
+  extras_require=dict(test=open('requirements-dev.txt').readlines()),
 )
 
