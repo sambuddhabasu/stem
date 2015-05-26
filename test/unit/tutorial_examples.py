@@ -148,28 +148,6 @@ class TestTutorialExamples(unittest.TestCase):
   @patch('sys.stdout', new_callable = StringIO)
   @patch('stem.control.Controller.from_port', spec = Controller)
   def test_list_circuits(self, from_port_mock, stdout_mock):
-    def tutorial_example():
-      from stem import CircStatus
-      from stem.control import Controller
-
-      with Controller.from_port(port = 9051) as controller:
-        controller.authenticate()
-
-        for circ in sorted(controller.get_circuits()):
-          if circ.status != CircStatus.BUILT:
-            continue
-
-          print('\nCircuit %s (%s)' % (circ.id, circ.purpose))
-
-          for i, entry in enumerate(circ.path):
-            div = '+' if (i == len(circ.path) - 1) else '|'
-            fingerprint, nickname = entry
-
-            desc = controller.get_network_status(fingerprint, None)
-            address = desc.address if desc else 'unknown'
-
-            print(' %s- %s (%s, %s)' % (div, fingerprint, nickname, address))
-
     path_1 = ('B1FA7D51B8B6F0CB585D944F450E7C06EDE7E44C', 'ByTORAndTheSnowDog')
     path_2 = ('0DD9935C5E939CFA1E07B8DDA6D91C1A2A9D9338', 'afo02')
     path_3 = ('DB3B1CFBD3E4D97B84B548ADD5B9A31451EEC4CC', 'edwardsnowden3')
@@ -195,7 +173,7 @@ class TestTutorialExamples(unittest.TestCase):
       path_7[0]: _get_router_status('176.67.169.171')
     }[fingerprint]
 
-    tutorial_example()
+    execfile('docs/_static/example/list_circuits.py')
     self.assert_equal_unordered(LIST_CIRCUITS_OUTPUT, stdout_mock.getvalue())
 
   @patch('sys.stdout', new_callable = StringIO)
